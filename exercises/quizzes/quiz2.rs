@@ -30,17 +30,11 @@ mod my_module {
     // pub fn transformer(input: ???) -> ??? { ??? }
     pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
         let mut v: Vec<String> = vec![];
-        for e in input {
-            match e.1 {
-                Command::Uppercase => v.push(e.0.to_uppercase()),
-                Command::Trim => v.push(e.0.trim().to_string()),
-                Command::Append(s) => {
-                    let mut bars = String::from("");
-                    for _n in 0..s {
-                        bars.push_str("bar");
-                    }
-                    v.push(format!("{}{}", e.0, bars));
-                }
+        for (text, action) in input.into_iter() {
+            match action {
+                Command::Uppercase => v.push(text.to_uppercase()),
+                Command::Trim => v.push(text.trim().to_string()),
+                Command::Append(n) => v.push(text + &"bar".repeat(n)),
             }
         }
         v
